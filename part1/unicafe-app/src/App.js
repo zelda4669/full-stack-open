@@ -9,6 +9,13 @@ const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
   const avg = mean(good, neutral, bad)
   const percent = multiply(good/total, 100) 
+  if (total === 0) {
+    return (
+      <div>
+        No feedback yet!
+      </div>
+    )
+  }
   return (
     <div>
       <Display stat='Good' value={good} />
