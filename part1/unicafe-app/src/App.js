@@ -3,8 +3,6 @@ import { mean, multiply } from 'mathjs'
 
 const Header = (props) => <div><h1>{props.text}</h1></div>
 
-const StatisticLine = (props) => <div>{props.stat}: {props.value} {props.unit}</div>
-
 const Button = ({ text, handleClick}) => {
   return (
     <div>
@@ -28,12 +26,34 @@ const Statistics = ({ good, neutral, bad }) => {
   }
   return (
     <div>
-      <StatisticLine stat='Good' value={good} />
-      <StatisticLine stat='Neutral' value={neutral} />
-      <StatisticLine stat='Bad' value={bad} />
-      <StatisticLine stat='Total' value={total} />
-      <StatisticLine stat='Average' value={avg} />
-      <StatisticLine stat='Percent Positive' value={percent} unit='%' />
+      <table>
+        <tbody>
+          <tr>
+            <td>Good</td>
+            <td>{good}</td>
+          </tr>
+          <tr>
+            <td>Neutral</td>
+            <td>{neutral}</td>
+          </tr>
+          <tr>
+            <td>Bad</td>
+            <td>{bad}</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>{total}</td>
+          </tr>
+          <tr>
+            <td>Average</td>
+            <td>{avg}</td>
+          </tr>
+          <tr>
+            <td>Percent Positive</td>
+            <td>{percent} %</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   )
 }
@@ -60,7 +80,6 @@ const App = () => {
       <Button text='Bad' handleClick={handleBadClick} />
       <Header text='Statisitcs' />
       <Statistics good={clicks.good} neutral={clicks.neutral} bad={clicks.bad} />
-
     </div>
   )
 }
