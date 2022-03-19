@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { floor, random } from 'mathjs'
+import { floor, random, max } from 'mathjs'
+
+const Header = (props) => <div><h1>{props.text}</h1></div>
 
 const getRandom = () => {
   return (
@@ -36,13 +38,18 @@ const App = () => {
     setClicks(copy)
   }
 
-  
+  let favorite = clicks.indexOf(max(clicks))
+
   return (
     <div>
+      <Header text='Anecdote of the Day' />
       <p>{anecdotes[selected]}</p>
       <p>This anecdote has {clicks[selected]} votes!</p>
       <Button text='Add Vote' handleClick={handler} />
       <Button text='Next Anecdote' handleClick={() => setSelected(getRandom())} />
+      <Header text='Most Loved Anecdote' />
+      <p>{anecdotes[favorite]}</p>
+      <p>This anecdote has {clicks[favorite]} votes!</p>
     </div>
   )
 }
