@@ -43,4 +43,14 @@ const Course = ({ course }) => {
     )
 }
 
-export default Course
+const All = ({ courses }) => {
+    return (
+        <div>
+            {courses.map(course =>
+                <Course key={course.id} course={course} />
+                )}
+        </div>
+    )
+}
+
+export default All
