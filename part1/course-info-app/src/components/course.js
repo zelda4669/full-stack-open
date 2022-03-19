@@ -17,10 +17,13 @@ const Header = ({ name }) => {
   }
   
   const Total = ({ course }) => {
+    const listAll = course.parts.map(part => part.exercises)
+    const sum = listAll.reduce((t, c) => t + c)
+
     return(
       <div>
         <p>
-          Total Number of Exercises: {course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises}
+          Total Number of Exercises: {sum}
         </p>
       </div>
     )

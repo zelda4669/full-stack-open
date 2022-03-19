@@ -19,7 +19,7 @@ const App = () => {
         name: 'State of a Component',
         exercises: 14,
         id: 3
-      }
+      },
     ]
   }
 
