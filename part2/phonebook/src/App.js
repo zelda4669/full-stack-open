@@ -1,35 +1,40 @@
 import { useState } from 'react'
 
 const Person = ({ person }) => {
-  return <li>{person.name}</li>
+  return <li>{person.name}: {person.number}</li>
 }
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', number: '040-1234567' }
   ])
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
-      name: newName
+      name: newName,
+      number: newNumber
     }
 
     const names = persons.map(person => person.name)
-
-    console.log(names.includes(newName))
 
     if (names.includes(newName) === true) {
       window.alert(`${newName} is already added to phonebook`)
     } else {
       setPersons(persons.concat(personObject))
       setNewName('')
+      setNewNumber('')
     }
   }
 
-  const handlePersonChange = (event) => {
+  const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   return (
@@ -39,8 +44,14 @@ const App = () => {
         <div>
           Name: <input 
                   value={newName} 
-                  onChange={handlePersonChange}
+                  onChange={handleNameChange}
                 />
+        </div>
+        <div>
+          Number: <input
+                    value={newNumber}
+                    onChange={handleNumberChange}
+                  />
         </div>
         <div>
           <button type='sumbit'>Add</button>
