@@ -1,8 +1,6 @@
 import { useState } from 'react'
-
-const Person = ({ person }) => {
-  return <li>{person.name}: {person.number}</li>
-}
+import Phonebook from './components/display-phonebook'
+import Field from './components/form-field'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,11 +9,10 @@ const App = () => {
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ])
+
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
-
-  const nameSearch = persons.filter(person => person.name.toLowerCase().includes(search))
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -44,6 +41,8 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const nameSearch = persons.filter(person => person.name.toLowerCase().includes(search))
+
   const handleSearch = (event) => {
     setSearch(event.target.value)
   }
@@ -52,34 +51,13 @@ const App = () => {
     <div>
       <h2>Add New Contact</h2>
       <form onSubmit={addPerson}>
-        <div>
-          Name: <input 
-                  value={newName} 
-                  onChange={handleNameChange}
-                />
-        </div>
-        <div>
-          Number: <input
-                    value={newNumber}
-                    onChange={handleNumberChange}
-                  />
-        </div>
+        <Field label='Name' value={newName} handler={handleNameChange} />
+        <Field label='Number' value={newNumber} handler={handleNumberChange} />
         <div>
           <button type='sumbit'>Add</button>
         </div>
       </form>
-      <h2>Contacts</h2>
-      <div>
-        Search: <input
-                  value={search}
-                  onChange={handleSearch}
-                />
-      </div>
-      <ul>
-        {nameSearch.map(person =>
-          <Person key={person.id} person={person} />
-        )}
-      </ul>
+      <Phonebook search={search} handleSearch={handleSearch} nameSearch={nameSearch} />
     </div>
   )
 }
