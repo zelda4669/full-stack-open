@@ -55,6 +55,7 @@ const App = () => {
 
   return (
     <div>
+      {console.log(persons)}
       <h2>Add New Contact</h2>
       <form onSubmit={addPerson}>
         <Field label='Name' value={newName} handler={handleNameChange} />
