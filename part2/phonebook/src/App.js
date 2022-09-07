@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Phonebook from './components/display-phonebook'
 import Field from './components/form-field'
+
+import phonebookService from './services/phonebook'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,12 +12,10 @@ const App = () => {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    phonebookService
+      .getAll()
+      .then(initialPhonebook => {
+        setPersons(initialPhonebook)
       })
   }, [])
 
@@ -33,10 +32,10 @@ const App = () => {
     if (names.includes(newName) === true) {
       window.alert(`${newName} is already added to phonebook`)
     } else {
-      axios
-        .post('http://localhost:3001/persons', personObject)
-        .then(response => {
-          setPersons(persons.concat(personObject))
+      phonebookService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
         })
@@ -60,7 +59,6 @@ const App = () => {
 
   return (
     <div>
-      {console.log(persons)}
       <h2>Add New Contact</h2>
       <form onSubmit={addPerson}>
         <Field label='Name' value={newName} handler={handleNameChange} />
