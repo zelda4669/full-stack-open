@@ -43,12 +43,25 @@ const App = () => {
     }
   }
 
+  const removePerson = (id) => {
+    const person = persons.find(p => p.id === Number(id))
+    if(window.confirm(`Delete ${person.name}?`)) {
+      phonebookService
+        .deleteEntry(id)
+        .then(() => setPersons(persons.filter(p => p !== person)))
+    }
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value)
+  }
+
+  const handleDelete = (event) => {
+    removePerson(event.target.value)
   }
 
   const nameSearch = persons.filter(person => person.name.toLowerCase().includes(search))
@@ -67,7 +80,7 @@ const App = () => {
           <button type='sumbit'>Add</button>
         </div>
       </form>
-      <Phonebook search={search} handleSearch={handleSearch} nameSearch={nameSearch} />
+      <Phonebook search={search} handleSearch={handleSearch} nameSearch={nameSearch} handleDelete={handleDelete} />
     </div>
   )
 }
