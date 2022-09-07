@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import Content from './components/content'
@@ -18,8 +18,8 @@ const App = () => {
     }, [])
 
   const handleSearch = (event) => {
-    console.log(event.target.value)
-    setSearch(event.target.value)
+    let e = event.target.value.toLowerCase()
+    setSearch(e)
   }
 
   const countrySearch = countries.filter(country => country.name.common.toLowerCase().includes(search))
@@ -27,7 +27,7 @@ const App = () => {
   return (
     <div>
       <Search search={search} handleSearch={handleSearch} />
-      <Content countrySearch = {countrySearch} />
+      <Content countrySearch = {countrySearch} handleSearch={handleSearch} />
     </div>
   )
 }

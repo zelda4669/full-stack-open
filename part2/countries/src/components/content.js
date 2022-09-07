@@ -1,8 +1,9 @@
+import React from 'react'
 import Country from './country'
 import CountryData from './country-data'
 
 
-const Content = ({ countrySearch }) => {
+const Content = ({ countrySearch, handleSearch }) => {
     if (countrySearch.length > 10) {
         return (
             <div>
@@ -21,7 +22,7 @@ const Content = ({ countrySearch }) => {
                 <ul>
                     {countrySearch.map(
                     (country, index) =>
-                    <Country key={index} country={country} />
+                    <Country key={index} country={country} handleSearch={handleSearch} />
                     )}
                 </ul>
             </div> 

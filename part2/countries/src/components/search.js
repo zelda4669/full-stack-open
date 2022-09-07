@@ -1,3 +1,5 @@
+import React from 'react'
+
 const Search = ({ search, handleSearch }) => {
     return(
         <div>
@@ -7,7 +9,6 @@ const Search = ({ search, handleSearch }) => {
                 />
       </div>
     )
-
 }
 
 export default Search
