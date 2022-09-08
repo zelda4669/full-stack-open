@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
-  const [alert, setAlert] = useState(null)
+  const [alert, setAlert] = useState({message: null, type: null})
 
   useEffect(() => {
     phonebookService
@@ -39,29 +39,43 @@ const App = () => {
           phonebookService
             .update(person.id, changedPerson)
             .then(returnedPerson => {
-              setAlert(
-                `${newName} has been updated`
-              )
+              setAlert({
+                message: `${newName} has been updated`,
+                type: 'confirm'
+              })
               setTimeout(() => {
-                setAlert(null)
+                setAlert({message: null, type: null})
               }, 5000)
               setPersons(persons.map(p => p.id !== person.id ? p: returnedPerson))
               setNewName('')
               setNewNumber('')
             })
+            .catch(error => {
+              setAlert({
+                message: `${newName} has previously been removed from the server`,
+                type: 'error'
+              })
+              setTimeout(() => {
+                setAlert({message: null, type: null})
+              }, 5000)
+              setPersons(persons.filter(p => p.name !== person.name))
+              setNewName('')
+              setNewNumber('')
+            })
         }
       } else {
-          window.alert(`${newName} is already added to phonebook`)
+          window.alert(`${newName} is already in your phonebook.`)
       }
     } else {
       phonebookService
         .create(personObject)
         .then(returnedPerson => {
-          setAlert(
-            `${newName} has been added`
-          )
+          setAlert({
+            message: `${newName} has been added`,
+            type: 'confirm'
+          })
           setTimeout(() => {
-            setAlert(null)
+            setAlert({message: null, type: null})
           }, 5000)
           setPersons(persons.concat(returnedPerson))
           setNewName('')
@@ -101,7 +115,7 @@ const App = () => {
   return (
     <div>
       <h2>Add New Contact</h2>
-      <Notification message={alert} />
+      <Notification message={alert.message} type={alert.type} />
       <form onSubmit={addPerson}>
         <Field label='Name' value={newName} handler={handleNameChange} />
         <Field label='Number' value={newNumber} handler={handleNumberChange} />
