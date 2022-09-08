@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import Phonebook from './components/display-phonebook'
 import Field from './components/form-field'
+import Notification from './components/alert'
 
 import phonebookService from './services/phonebook'
 
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [alert, setAlert] = useState(null)
 
   useEffect(() => {
     phonebookService
@@ -37,7 +39,15 @@ const App = () => {
           phonebookService
             .update(person.id, changedPerson)
             .then(returnedPerson => {
+              setAlert(
+                `${newName} has been updated`
+              )
+              setTimeout(() => {
+                setAlert(null)
+              }, 5000)
               setPersons(persons.map(p => p.id !== person.id ? p: returnedPerson))
+              setNewName('')
+              setNewNumber('')
             })
         }
       } else {
@@ -47,6 +57,12 @@ const App = () => {
       phonebookService
         .create(personObject)
         .then(returnedPerson => {
+          setAlert(
+            `${newName} has been added`
+          )
+          setTimeout(() => {
+            setAlert(null)
+          }, 5000)
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
@@ -85,6 +101,7 @@ const App = () => {
   return (
     <div>
       <h2>Add New Contact</h2>
+      <Notification message={alert} />
       <form onSubmit={addPerson}>
         <Field label='Name' value={newName} handler={handleNameChange} />
         <Field label='Number' value={newNumber} handler={handleNumberChange} />
