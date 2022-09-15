@@ -1,12 +1,11 @@
-part1/lesson-examples-app
-
 part1/course-info-app/node_modules
-
 part1/unicafe-app/node_modules
-
 part1/anecdotes-app/node_modules
 
 part2/phonebook/node_modules
-
 part2/countries/node_modules
 part2/countries/.env
+
+Notes Example App/backend/node_modules
+Notes Example App/frontend/node_modules
+Notes Example App/frontend/db.json
