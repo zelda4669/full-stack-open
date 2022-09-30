@@ -26,7 +26,6 @@ const App = () => {
     const personObject = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     }
 
     const names = persons.map(person => person.name)
@@ -86,7 +85,7 @@ const App = () => {
   }
 
   const removePerson = (id) => {
-    const person = persons.find(p => p.id === Number(id))
+    const person = persons.find(p => p.id === id)
     if(window.confirm(`Delete ${person.name}?`)) {
       phonebookService
         .deleteEntry(id)
