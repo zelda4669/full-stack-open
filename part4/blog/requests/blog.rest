@@ -14,3 +14,12 @@ Content-Type: application/json
     "author": "The Voice of Reason",
     "url": "/my-first-blog"
 }
+
+###
+
+PUT http://localhost:3003/api/blogs/6336764ab7a694924acc82dc
+Content-Type: application/json
+
+{
+    "likes": "1000"
+}
