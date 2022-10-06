@@ -12,6 +12,5 @@ Content-Type: application/json
 {
     "title": "My First Blog",
     "author": "The Voice of Reason",
-    "url": "/my-first-blog",
-    "likes": 250
+    "url": "/my-first-blog"
 }
