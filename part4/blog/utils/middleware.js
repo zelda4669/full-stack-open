@@ -7,6 +7,9 @@ function unknownEndpoint(req, res) {
 }
 
 function errorHandler(err, req, res, next) {
+    if(err.name === 'ValidationError') {
+        return res.status(400).send(err.message)
+    }
     logger.error(err.message)
 
     next(err)

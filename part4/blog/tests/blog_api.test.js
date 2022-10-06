@@ -5,6 +5,7 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const { all } = require('../app')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -64,6 +65,20 @@ test('likes default to zero', async() => {
     const addedBlog = allBlogs[allBlogs.length-1]
 
     expect(addedBlog.likes).toBe(0)
+})
+
+test('need title and url to create a blog', async() => {
+    const newBlog = {
+        author: 'There is no author, only Zuul'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+
+    const allBlogs = await helper.blogsInDB()
+    expect(allBlogs).toHaveLength(helper.initialBlogs.length)
 })
 
 afterAll(() => {
