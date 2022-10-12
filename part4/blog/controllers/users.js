@@ -10,6 +10,20 @@ usersRouter.get('/', async (req, res) => {
 usersRouter.post('/', async (req, res) => {
     const { username, name, password } = req.body
 
+    const existingUser = await User.findOne({username})
+
+    if(existingUser) {
+        return res.status(400).json({ error: "That username is already taken!"})
+    }
+
+    if(username.length < 3) {
+        return res.status(400).json({ error: 'Username is too short!' })
+    }
+
+    if(password.length < 3) {
+        return res.status(400).json({ error: 'Password is too short!'})
+    }
+
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
 

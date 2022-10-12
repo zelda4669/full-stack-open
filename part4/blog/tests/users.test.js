@@ -39,4 +39,67 @@ describe('user tests', () => {
         const usernames = endUsers.map(u => u.username)
         expect(usernames).toContain(newUser.username)
     })
+
+    test('username must be unique', async () => {
+        const initialUsers = await helper.usersInDB()
+
+        const newUser = {
+            username: 'Ash',
+            name: 'Brock',
+            password: 'ilovenursejoy'
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+        
+        expect(result.body.error).toContain('That username is already taken!')
+
+        const endUsers = await helper.usersInDB()
+        expect(endUsers).toEqual(initialUsers)
+    })
+
+    test('password must be 3 characters', async () => {
+        const initialUsers = await helper.usersInDB()
+
+        const newUser = {
+            username: 'ladiesman24',
+            name: 'Brock',
+            password: 'i'
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+        
+        expect(result.body.error).toContain('Password is too short!')
+
+        const endUsers = await helper.usersInDB()
+        expect(endUsers).toEqual(initialUsers)
+    })
+
+    test('username must be 3 characters', async () => {
+        const initialUsers = await helper.usersInDB()
+
+        const newUser = {
+            username: 'B',
+            name: 'Brock',
+            password: 'iloveofficerjenny'
+        }
+
+        const result = await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+        
+        expect(result.body.error).toContain('Username is too short!')
+
+        const endUsers = await helper.usersInDB()
+        expect(endUsers).toEqual(initialUsers)
+    })
 })

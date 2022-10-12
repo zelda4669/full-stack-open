@@ -5,7 +5,6 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
-const { all } = require('../app')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -37,7 +36,6 @@ describe('saving new blogs', () => {
     test('add a new blog', async () => {
         const newBlog = {
             title: 'One Ring to Rule Them All',
-            author: 'Definitely Not Sauron',
             url: 'www.mordor.com',
             likes: 4
         }
@@ -58,15 +56,11 @@ describe('saving new blogs', () => {
     test('likes default to zero', async() => {
         const newBlog = {
             title: 'One Ring to Rule Them All',
-            author: 'Definitely Not Sauron',
             url: 'www.mordor.com'
         }
-
-       const addedBlog = await api.post('/api/blogs').send(newBlog)
         
-        const allBlogs = await helper.blogsInDB()
-        console.log(addedBlog.body)
-        expect(addedBlog.likes).toBe(0)
+        const addedBlog = await api.post('/api/blogs').send(newBlog)
+        expect(addedBlog.body.likes).toBe(0)
     })
 
     test('need title and url to create a blog', async() => {
@@ -112,12 +106,6 @@ describe('editing the database', () => {
 
     })
 })
-
-
-
-
-
-
 
 afterAll(() => {
     mongoose.connection.close()
