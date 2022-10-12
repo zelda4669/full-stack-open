@@ -62,11 +62,10 @@ describe('saving new blogs', () => {
             url: 'www.mordor.com'
         }
 
-        await api.post('/api/blogs').send(newBlog)
+       const addedBlog = await api.post('/api/blogs').send(newBlog)
         
         const allBlogs = await helper.blogsInDB()
-        const addedBlog = allBlogs[allBlogs.length-1]
-
+        console.log(addedBlog.body)
         expect(addedBlog.likes).toBe(0)
     })
 
