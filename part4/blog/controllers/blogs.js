@@ -12,7 +12,6 @@ blogsRouter.get('/', async (req, res) => {
 
 blogsRouter.post('/', async (req, res) => {
     const body = req.body
-    console.log(req.token)
 
     const decodedToken = jwt.verify(req.token, process.env.SECRET)
 
@@ -38,7 +37,16 @@ blogsRouter.post('/', async (req, res) => {
 })
 
 blogsRouter.delete('/:id', async (req, res) => {
-    await Blog.findByIdAndRemove(req.params.id)
+    const token = jwt.verify(req,token, process.env.SECRET)
+    const id = req.params.id
+    const blog = await Blog.findById(id)
+    
+    if(token.id !== blog.user) {
+        return res.status(401).json({ error: "you don't have permission to delete this entry" })
+    }
+
+
+    await Blog.findByIdAndRemove(id)
     res.status(204).end()
 })
 
