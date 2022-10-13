@@ -9,12 +9,26 @@ function unknownEndpoint(req, res) {
 function errorHandler(err, req, res, next) {
     if(err.name === 'ValidationError') {
         return res.status(400).send(err.message)
+    } else if(err.name === 'JsonWebTokenError') {
+        return res.status(401).json({ err: 'invalid token' })
     }
+
     logger.error(err.message)
 
     next(err)
 }
 
-const middleware = { unknownEndpoint, errorHandler }
+function tokenExtractor(req, res, next) {
+    const auth = req.get('authorization')
+    if(auth && auth.toLowerCase().startsWith('bearer ')) {
+        req.token = auth.substring(7)
+    }
+    
+    next()
+}
 
-module.exports = middleware
+module.exports = { 
+    unknownEndpoint, 
+    errorHandler,
+    tokenExtractor,
+}

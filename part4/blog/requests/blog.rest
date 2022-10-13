@@ -4,7 +4,8 @@ GET http://localhost:3003/api/blogs
 
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer <TOKEN GOES HERE>
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBpa2Fib3k1MDAwIiwibmFtZSI6IkFzaCBLZXRjaHVtIiwiaWQiOiI2MzQ3NTRjOTg2MTRkMDEzMzY1OGRkYWIiLCJpYXQiOjE2NjU2NDQ3Mjh9.1UxpXZrJ8MpAH30B73IIqMPgYI5u0dih8I9cwhdH_9U
+
 {
     "title": "My First Blog",
     "url": "/my-first-blog"
