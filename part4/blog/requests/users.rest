@@ -10,3 +10,13 @@ Content-Type: application/json
     "username": "pikaboy5000",
     "password": "pipikachu"
 }
+
+###
+
+POST http://localhost:3003/api/users/login 
+Content-Type: application/json 
+
+{
+    "username": "pikaboy5000",
+    "password": "pipikachu"
+}
