@@ -1,3 +1,4 @@
+const User = require('../models/user')
 const logger = require('./logger')
 
 function unknownEndpoint(req, res) {
@@ -18,17 +19,28 @@ function errorHandler(err, req, res, next) {
     next(err)
 }
 
-function tokenExtractor(req, res, next) {
+function tokenExtractor(req) {
     const auth = req.get('authorization')
     if(auth && auth.toLowerCase().startsWith('bearer ')) {
-        req.token = auth.substring(7)
+        return auth.substring(7)
     }
-    
+    return null
+}
+
+async function userExtractor(req, res, next) {
+    const token = tokenExtractor(req)
+    if(!token.id) {
+        return res.status(401).json({ 'invalid token' })
+    }
+
+    const user = await User.findById(token.id)
+    req.user = user
+
     next()
 }
 
 module.exports = { 
     unknownEndpoint, 
     errorHandler,
-    tokenExtractor,
+    userExtractor,
 }
